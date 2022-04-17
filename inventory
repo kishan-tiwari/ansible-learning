@@ -1,8 +1,8 @@
 [db]
-db.example.com
+db.example.com webserver_package=nginx common_package=git
 
 [app]
-app.example.com
+app.example.com webserver_package=nginx common_package=git
 
 [backend]
-backend.example.com
+backend.example.com webserver_package=httpd common_package=git

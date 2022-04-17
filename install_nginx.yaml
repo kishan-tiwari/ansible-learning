@@ -3,54 +3,11 @@
 - hosts: all
   become: true
   tasks:
-
-  - name: update repository index
-    apt:
+ 
+  - name: install  nginx/git/vim package
+    package:
+      name: 
+        - "{{ webserver_package }}"
+        - "{{ common_package }}"
+      state: latest
       update_cache: yes
-    when: ansible_distribution == "Ubuntu"
-  
-  - name: install nginx package
-    apt:
-      name: nginx
-      state: latest
-    when: ansible_distribution == "Ubuntu"
-
-
-  - name: install git package
-    apt:
-      name: git
-      state: latest
-    when: ansible_distribution == "Ubuntu"
-
-
-  - name: install vim package
-    apt:
-      name: vim
-      state: latest
-    when: ansible_distribution == "Ubuntu"
-
-  - name: update repository index
-    yum:
-      update_cache: yes
-    when: ansible_distribution == "CentOS"
-
-  - name: install nginx package
-    yum:
-      name: httpd
-      state: latest
-    when: ansible_distribution == "CentOS"
-
-
-  - name: install git package
-    yum:
-      name: git
-      state: latest
-    when: ansible_distribution == "CentOS"
-
-
-  - name: install vim package
-    yum:
-      name: vim
-      state: latest
-    when: ansible_distribution == "CentOS"
-
