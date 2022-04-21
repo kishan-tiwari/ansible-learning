@@ -1,0 +1,68 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (CentOS)
+    tags: always
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install updates (Ubuntu)
+    tags: always    
+    yum:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+
+- hosts: app
+  become: true
+  tasks:
+
+  - name: install  nginx/git/vim package
+    tags: nginx,vim,git,ubuntu
+    apt:
+      name: 
+        - nginx
+        - vim
+        - git
+      state: latest
+
+  - name: copy html file for site
+    tags: nginx
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: www-data
+      group: www-data
+      mode: 0644
+
+
+- hosts: db
+  become: true
+  tasks:
+
+  - name: install  mysql/git/vim package
+    tags: mysql,vim,git,ubuntu    
+    apt:
+      name: 
+        - mysql-server
+        - vim
+        - git
+      state: latest
+
+- hosts: backend
+  become: true
+  tasks:
+
+  - name: enable EPEL repo
+    tags: git,epel-release,CentOS    
+    yum:
+      name:
+        - epel-release
+        - git
+      state: latest      
